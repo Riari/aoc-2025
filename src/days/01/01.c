@@ -29,7 +29,7 @@ static int count_zero_hits(int start, int delta)
     }
 
     int delta_abs = abs(delta);
-    return delta_abs < steps_to_zero ? 0 : 1 + (delta_abs - steps_to_zero) / 100;
+    return delta_abs < steps_to_zero ? 0 : 1 + (delta_abs - steps_to_zero) / DIAL_MAX;
 }
 
 static int solve(const Lines* lines, bool p2)
