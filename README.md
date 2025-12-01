@@ -1,20 +1,6 @@
-# C template for Advent of Code
+# AoC 2025
 
-I put together this template for solving Advent of Code in C. Nothing fancy, just a solution runner with very basic support for testing, some utils, a script to generate boilerplate, and CMake support.
-
-`./new.sh 1` to generate boilerplate for day 1.
-
-`cmake --preset debug` to configure.
-
-`cmake --build --preset debug` to build.
-
-`cmake --workflow --preset debug` to configure and build in one go.
-
-Below is a template you can use for the readme contents.
-
-# AoC 20XX
-
-Solutions for [Advent of Code 20XX](https://adventofcode.com/20XX) in C.
+Solutions for [Advent of Code 2025](https://adventofcode.com/2025) in C.
 
 | **Day** | **Part** | **Completed** |
 |---------|----------|---------------|
