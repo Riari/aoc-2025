@@ -10,12 +10,26 @@
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
                 "CMAKE_C_FLAGS_INIT": "-Wall -Wextra -Wpedantic"
             }
+        },
+        {
+            "name": "debug-msvc",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+                "CMAKE_C_FLAGS_INIT": "/W4"
+            }
         }
     ],
     "buildPresets": [
         {
             "name": "debug",
             "configurePreset": "debug"
+        },
+        {
+            "name": "debug-msvc",
+            "configurePreset": "debug-msvc"
         }
     ],
     "workflowPresets": [
@@ -29,6 +43,19 @@
                 {
                     "type": "build",
                     "name": "debug"
+                }
+            ]
+        },
+        {
+            "name": "debug-msvc",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "debug-msvc"
+                },
+                {
+                    "type": "build",
+                    "name": "debug-msvc"
                 }
             ]
         }

@@ -5,10 +5,10 @@
 #include "utils.h"
 #include "days/solution.h"
 
-// #include "days/01/01.h"
+#include "days/01/01.h"
 
 static const Solution* solutions[] = {
-//    &day01,
+    &day01,
 };
 
 static const int num_solutions = sizeof(solutions) / sizeof(solutions[0]);
@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    printf("Advent of Code 2018\n");
+    printf("Advent of Code 2025\n");
     printf("===================\n\n");
 
     if (day == 0)
