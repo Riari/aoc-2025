@@ -10,8 +10,8 @@ Solutions for [Advent of Code 2025](https://adventofcode.com/2025) in C.
 |         | Part 2   | ✅            |
 | Day 3   | Part 1   | ✅            |
 |         | Part 2   | ✅            |
-| Day 4   | Part 1   | ❌            |
-|         | Part 2   | ❌            |
+| Day 4   | Part 1   | ✅            |
+|         | Part 2   | ✅            |
 | Day 5   | Part 1   | ❌            |
 |         | Part 2   | ❌            |
 | Day 6   | Part 1   | ❌            |
