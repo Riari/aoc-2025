@@ -1,5 +1,6 @@
 #include "utils.h"
 
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -122,6 +123,19 @@ void free_lines(Lines lines)
         }
         free(lines.lines);
     }
+}
+
+bool is_str_empty(const char* str)
+{
+    if (str == NULL) return true;
+
+    while (*str)
+    {
+        if (!isspace((unsigned char)*str)) return false;
+        ++str;
+    }
+
+    return true;
 }
 
 Timer start_timer(void)

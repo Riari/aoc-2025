@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdbool.h>
 #include <time.h>
 
 // File I/O
@@ -13,6 +14,10 @@ typedef struct {
 
 Lines read_lines(const char *filename);
 void free_lines(Lines lines);
+
+// Strings
+
+bool is_str_empty(const char* str);
 
 // Timer
 
