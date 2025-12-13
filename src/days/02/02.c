@@ -8,8 +8,7 @@
 #include "cc.h"
 
 #include "utils.h"
-
-typedef unsigned long long ull;
+#include "types.h"
 
 typedef struct Range
 {

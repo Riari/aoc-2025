@@ -5,8 +5,7 @@
 #include <string.h>
 
 #include "utils.h"
-
-typedef unsigned long long ull;
+#include "types.h"
 
 static ull solve(const Lines* lines, const size_t line_length, const size_t digit_count)
 {
