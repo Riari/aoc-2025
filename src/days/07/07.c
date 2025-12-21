@@ -4,140 +4,64 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define CC_NO_SHORT_NAMES
-#include <cc.h>
-
 #include "utils.h"
+#include "types.h"
 
-typedef struct Vec2
+#define START 'S'
+#define SPLITTER '^'
+
+static int width;
+static int height;
+
+static ull process_cell(const Lines* lines, ull* counts, ull* splits, const int x, const int y)
 {
-    int x;
-    int y;
-} Vec2;
+    ull result = 0;
 
-static Vec2 id_to_coords(const int id, const int width)
-{
-    Vec2 vec = {
-        .x = id % width,
-        .y = id / width
-    };
+    if (x >= width || y >= height) return 1;
 
-    return vec;
-}
+    if (counts[y * width + x] > 0) return counts[y * width + x];
 
-static int coords_to_id(const Vec2* coords, const int width)
-{
-    return coords->y * width + coords->x;
-}
-
-static bool try_create_beam(cc_map(int, int)* beams, cc_map(int, int)* new_beams, const Vec2* start_coords, const int width)
-{
-    const int new_id = coords_to_id(start_coords, width);
-    if (cc_get(beams, new_id) == NULL)
+    if (lines->lines[y][x] == SPLITTER)
     {
-        cc_insert(new_beams, new_id, new_id);
-        return true;
+        result += process_cell(lines, counts, splits, x - 1, y + 1);
+        result += process_cell(lines, counts, splits, x + 1, y + 1);
+        *splits += 1;
+    }
+    else
+    {
+        result += process_cell(lines, counts, splits, x, y + 1);
     }
 
-    return false;
+    counts[y * width + x] = result;
+
+    return result;
 }
 
-static int solve(const Lines* lines)
+static ull solve(const Lines* lines, const bool p2)
 {
-    int result = 0;
+    width = strlen(lines->lines[0]);
+    height = lines->count;
+    ull splits = 0;
+    ull paths = 0;
 
-    cc_map(int, int) beams;
-    cc_init(&beams);
+    ull* counts = calloc(width * height, sizeof(ull));
 
-    const int width = strlen(lines->lines[0]);
-    const int height = lines->count;
-    const int last_id = (width * height) - 1;
+    int start_x = 0, start_y = 0;
     for (int x = 0; x < width; ++x)
     {
         const char c = lines->lines[0][x];
-        if (c == 'S')
+        if (c == START)
         {
-            cc_insert(&beams, x, x);
+            start_x = x;
             break;
         }
     }
 
-    cc_map(int, int) new_beams;
-    cc_init(&new_beams);
+    paths = process_cell(lines, counts, &splits, start_x, start_y + 1);
 
-    // Finished beams by end ID
-    cc_set(int) finished_beams;
-    cc_init(&finished_beams);
+    free(counts);
 
-    cc_map(int, int) splits;
-    cc_init(&splits);
-
-    bool changed;
-    do
-    {
-        changed = false;
-        cc_for_each(&beams, start, end)
-        {
-            if (cc_get(&finished_beams, *end) != NULL) continue;
-
-            // Try to move the beam
-            const int new_end = *end + width;
-
-            if (new_end > last_id) continue;
-
-            const Vec2 coords = id_to_coords(new_end, width);
-            const char c = lines->lines[coords.y][coords.x];
-            if (c == '^')
-            {
-                int left = coords.x - 1;
-                int right = coords.x + 1;
-
-                if (left > 0)
-                {
-                    const Vec2 start = { .x = left, .y = coords.y };
-                    if (try_create_beam(&beams, &new_beams, &start, width))
-                        changed = true;
-                }
-
-                if (right < width)
-                {
-                    const Vec2 start = { .x = right, .y = coords.y };
-                    if (try_create_beam(&beams, &new_beams, &start, width))
-                        changed = true;
-                }
-
-                cc_insert(&finished_beams, *end);
-                result += 1;
-
-                const int* split_count = cc_get(&splits, *end);
-                if (split_count != NULL)
-                {
-                    cc_insert(&splits, *end, *split_count + 1);
-                }
-                else
-                {
-                    cc_insert(&splits, *end, 1);
-                }
-            }
-            else
-            {
-                *end = new_end;
-                changed = true;
-            }
-        }
-
-        cc_for_each(&new_beams, start, end)
-        {
-            cc_insert(&beams, *start, *end);
-        }
-
-        cc_cleanup(&new_beams);
-    } while (changed);
-
-    cc_cleanup(&beams);
-    cc_cleanup(&finished_beams);
-
-    return result;
+    return p2 ? paths : splits;
 }
 
 void day07_part1(void)
@@ -145,7 +69,7 @@ void day07_part1(void)
     Lines lines = read_lines("07_input.txt");
     if (!lines.lines) return;
 
-    printf("%d", solve(&lines));
+    printf("%llu", solve(&lines, false));
 
     free_lines(lines);
 }
@@ -155,6 +79,8 @@ void day07_part2(void)
     Lines lines = read_lines("07_input.txt");
     if (!lines.lines) return;
 
+    printf("%llu", solve(&lines, true));
+
     free_lines(lines);
 }
 
@@ -163,7 +89,7 @@ bool day07_test_part1(void)
     Lines lines = read_lines("07_test_input.txt");
     if (!lines.lines) return false;
 
-    int result = solve(&lines);
+    int result = solve(&lines, false);
 
     free_lines(lines);
     return result == 21;
@@ -174,8 +100,10 @@ bool day07_test_part2(void)
     Lines lines = read_lines("07_test_input.txt");
     if (!lines.lines) return false;
 
+    int result = solve(&lines, true);
+
     free_lines(lines);
-    return false;
+    return result == 40;
 }
 
 const Solution day07 = {
