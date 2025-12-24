@@ -160,3 +160,23 @@ int compare_int_desc(const void* a, const void* b)
 {
     return *(const int*)b - *(const int*)a;
 }
+
+int compare_size_asc(const void* a, const void* b)
+{
+    size_t val_a = *(const size_t*)a;
+    size_t val_b = *(const size_t*)b;
+
+    if (val_a < val_b) return -1;
+    if (val_a > val_b) return 1;
+    return 0;
+}
+
+int compare_size_desc(const void* a, const void* b)
+{
+    size_t val_a = *(const size_t*)a;
+    size_t val_b = *(const size_t*)b;
+
+    if (val_a < val_b) return 1;
+    if (val_a > val_b) return -1;
+    return 0;
+}

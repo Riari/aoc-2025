@@ -32,3 +32,6 @@ double end_timer(Timer timer);
 
 int compare_int_asc(const void* a, const void* b);
 int compare_int_desc(const void* a, const void* b);
+
+int compare_size_asc(const void* a, const void* b);
+int compare_size_desc(const void* a, const void* b);
