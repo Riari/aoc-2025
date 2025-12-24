@@ -13,6 +13,7 @@
 #include "days/06/06.h"
 #include "days/07/07.h"
 #include "days/08/08.h"
+#include "days/09/09.h"
 
 static const Solution* solutions[] = {
     &day01,
@@ -23,6 +24,7 @@ static const Solution* solutions[] = {
     &day06,
     &day07,
     &day08,
+    &day09,
 };
 
 static const int num_solutions = sizeof(solutions) / sizeof(solutions[0]);

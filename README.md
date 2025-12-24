@@ -20,7 +20,7 @@ Solutions for [Advent of Code 2025](https://adventofcode.com/2025) in C.
 |         | Part 2   | ✅            |
 | Day 8   | Part 1   | ✅            |
 |         | Part 2   | ✅            |
-| Day 9   | Part 1   | ❌            |
+| Day 9   | Part 1   | ✅            |
 |         | Part 2   | ❌            |
 | Day 10  | Part 1   | ❌            |
 |         | Part 2   | ❌            |
